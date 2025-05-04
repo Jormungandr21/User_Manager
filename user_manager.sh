@@ -1,13 +1,15 @@
 #!/bin/bash
 
 logger="./user_manager.log"
-create_user() { 
-    local username=$1
-    local password=$2
+create_user() {
 
+local username=$1
+if id "$username" &>/dev/null; then
+    echo "[$(date)] ERROR: User $username already exists. Choose another username." >> "$logger"
+  else
     sudo useradd "$username"
-
-    echo "User '$username' has been created" >> "$logger"
+    echo "[$(date)] INFO: User $username has been created." >> "$logger"
+  fi
 }
 
 delete_user(){
